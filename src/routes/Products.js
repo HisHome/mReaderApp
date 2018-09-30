@@ -3,15 +3,15 @@ import { connect } from 'dva';
 import styles from './IndexPage.css';
 
 function IndexPage() {
-  return (
-    <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to dva!</h1>
-      <div className={styles.welcome} />
-          <ul className={styles.list}>
-        agawg
+    return (
+        <div className={styles.normal}>
+            <h1 className={styles.title}>Yay! Welcome to dva!</h1>
+            <div className={styles.welcome} />
+            <ul className={styles.list}>
+                agawg
         </ul>
-    </div>
-  );
+        </div>
+    );
 }
 
 IndexPage.propTypes = {
