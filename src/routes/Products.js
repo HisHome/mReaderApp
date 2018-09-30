@@ -8,8 +8,8 @@ function IndexPage() {
             <h1 className={styles.title}>Yay! Welcome to dva!</h1>
             <div className={styles.welcome} />
             <ul className={styles.list}>
-                agawg
-        </ul>
+                    agawg
+            </ul>
         </div>
     );
 }
