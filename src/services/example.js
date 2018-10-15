@@ -1,5 +1,5 @@
 import request from '../utils/request';
 
-export function query() {
+export function getBookType() {
   return request('/api/users');
 }

@@ -1,0 +1,55 @@
+.listItem{
+    text-align: center;
+    background: #ececec;
+    height: 100px;
+}
+.indexFemale,.indexMale,.indexPicture,.indexPress{
+    height: 100px;
+    border: 1px solid #ececec;
+    text-align: center;
+    line-height: 100px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+}
+.indexFemale{
+    background: url('../assets/img/index1.png') center center;
+    background-size: 100% 100% ;
+}
+.indexMale{
+    background: url('../assets/img/index2.png') center center;
+    background-size: 100% 100% ;
+}
+.indexPicture{
+    background: url('../assets/img/index3.png') center center;
+    background-size: 100% 100% ;
+}
+.indexPress{
+    background: url('../assets/img/index4.png') center center;
+    background-size: 100% 100% ;
+}
+
+.basicBg{
+    background: #fff;
+    padding: 10px;
+}
+.bookTypeBox{
+    padding: 5px;
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+    overflow: hidden;
+    
+}
+.bookTypeBox .bookTypeBoxName{
+    position: absolute;
+    padding: 10px; 
+    left: 0;bottom: 10px;
+    background: #666;
+    width: 100%;
+    opacity: .7;
+    color: #fff;
+}
+.bookTypeBox .bookTypeBoxName p{
+    padding: 4px 0; 
+}
