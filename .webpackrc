@@ -1,2 +1,4 @@
 {
+  "entry":"src/index.js",
+  "outputPath":"../mReader/dist/"
 }

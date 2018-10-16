@@ -1,0 +1,60 @@
+.searchBox{
+    background: #fff;
+    border-top: 1px solid #ececec;
+}
+.searchBoxItem{
+    padding: 0.2rem .2rem;
+    border-bottom: 1px solid #ececec;
+}
+.searchType{
+    padding: 0 .1rem;
+    color: #666;
+}
+.searchType.active{
+    color: red;
+}
+.booksInfo{
+    background: #f5f2ed;
+    padding: .3rem;
+}
+
+.booksImg{
+    width: 1.6rem;
+    height: 2rem;
+    background: #ececec;
+    float: left;
+    overflow: hidden;
+}
+
+.booksTitleBox{
+    margin-left: 2rem;
+}
+.booksName{
+    color: #333;
+    padding: .1rem 0;
+    font-size: 0.24rem;
+}
+.booksAuthor{
+    color: #888;
+    padding: .1rem 0 .14rem;
+}
+.booksDesc{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color: #888;
+    padding: .08rem 0;
+}
+.booksKeep{
+    padding: .1rem 0;
+    color: #666;
+}
+.redColor{
+    color: red;
+}
+
+.booksInfoBox{
+    overflow: hidden;
+    padding: 0.15rem 0;
+    border-bottom: 1px solid #e9e9e9;
+}

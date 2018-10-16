@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Link ,routerRedux } from 'dva/router';
 import ProductList from '../components/ProductList';
 import { NavBar, Tabs, TabBar, SearchBar,  Flex, Icon, InputItem, SegmentedControl} from 'antd-mobile';
 import styles from './Index.css';
+import util from '../utils/util.js'
 
 class IndexPage extends React.Component {
     constructor(props){
@@ -53,16 +55,18 @@ class IndexPage extends React.Component {
                 </div>
                 <div  style={{marginTop: 10,overflow: 'hidden',padding:'0 5px'}}>
                     {bookTypeList && bookTypeList[this.state.bookType] && bookTypeList[this.state.bookType].map((item, index)=>{
-                            return <div className={styles.bookTypeBox}>
-                                <div style={{background: '#fff',overflow: 'hidden',padding: 10,position: 'relative'}}>
-                                    <div className={styles.bookTypeBoxName}>
-                                        <h3 >{item.name}</h3>
-                                        <p >共{item.bookCount}本</p>
+                            return <div className={styles.bookTypeBox} key={index}>
+                                <Link to={{ pathname: "/bookTypeInfo",search: util.initQuery({gender: this.state.bookType, major: item.name})}}>
+                                    <div style={{background: '#fff',overflow: 'hidden',padding: 10,position: 'relative'}}>
+                                        <div className={styles.bookTypeBoxName}>
+                                            <h3 >{item.name}</h3>
+                                            <p >共{item.bookCount}本</p>
+                                        </div>
+                                        <div style={{height: 240,overflow: 'hidden'}}>
+                                            <img width="100%" src={'http://statics.zhuishushenqi.com'+item.bookCover[0]} alt=""/>
+                                        </div>
                                     </div>
-                                    <div style={{height: 240,overflow: 'hidden'}}>
-                                        <img width="100%" src={'http://statics.zhuishushenqi.com'+item.bookCover[0]} alt=""/>
-                                    </div>
-                                </div>
+                                </Link>
                             </div>
                        })
                     }
