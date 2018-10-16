@@ -21,7 +21,10 @@ export default {
                 if (pathname === '/bookTypeInfo') {
                     dispatch({
                         type: 'getBookTypeInfo',
-                        payload: util.getQuery()
+                        payload: {
+                            ...util.getQuery(),
+                            type: 'hot'
+                        }
                     })
                     dispatch({
                         type: 'getBookTypeLv2',
