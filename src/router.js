@@ -14,12 +14,19 @@ function RouterConfig({ history, app }) {
 		app,
 		models: () => [import('./models/bookTypeInfo')],
 		component: () => import('./routes/BookTypeInfo'),
+    });
+    
+    const BookDetail = dynamic({
+		app,
+		models: () => [import('./models/bookDetail')],
+		component: () => import('./routes/BookDetail'),
 	});
   return (
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={IndexPage} />
         <Route path="/bookTypeInfo" exact component={BookTypeInfo} />
+        <Route path="/bookDetail" exact component={BookDetail} />
       </Switch>
     </Router>
   );

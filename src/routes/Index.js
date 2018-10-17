@@ -30,8 +30,6 @@ class IndexPage extends React.Component {
     }
     render=()=>{
         const { bookTypeList } = this.props;
-        console.log('============')
-        console.log(bookTypeList)
         return (
             <div>
                 <div className="basic_bg">
