@@ -63,8 +63,13 @@ class BookDetail extends React.Component {
                         <p className={styles.booksAuthor}>{bookDetail.author}</p>
                     </div>
                     <div className={styles.bookBtnBox}>
-                        <Button className={styles.bookBtn} size="small" type="warning">&nbsp;开始阅读&nbsp;</Button> &nbsp; &nbsp;
-                        <Button className={styles.bookBtn} size="small" >&nbsp;加入书架&nbsp;</Button>
+                        <Button className={styles.bookBtn} size="small" >&nbsp;加入书架&nbsp;</Button> &nbsp; &nbsp;
+                        <Link to={{
+                            pathname:'/bookContent',
+                            search: util.initQuery({book: bookDetail._id})
+                        }}>
+                            <Button className={styles.bookBtn} size="small" type="warning">&nbsp;开始阅读&nbsp;</Button>
+                        </Link>
                     </div>
                 </div>
                 <div className={styles.bookInfoBox}>
@@ -95,7 +100,7 @@ class BookDetail extends React.Component {
                                 </div>
                                 <div className={styles.bookReviewInfo}>
                                     <h4 className={styles.nickname}>{item.author.nickname}</h4>
-                                    <h4>{item.title}颗星</h4>
+                                    <h4>{item.title}</h4>
                                     <div>{item.rating}颗星</div>
                                     <div className={styles.bookReviewContent}>
                                         {item.content}
