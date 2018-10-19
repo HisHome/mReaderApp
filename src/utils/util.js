@@ -41,6 +41,14 @@ const util = {
             }
         }
         return str
+    },
+    initContent: function(str){
+        let arr = []
+        if (str){
+            arr = str.split('\n')
+          
+        }
+        return arr
     }
 }
 

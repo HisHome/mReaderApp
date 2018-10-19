@@ -31,7 +31,7 @@ export function getBookReview(data) {
 // ---------------
 // 书源
 export function getBookSource(data) {
-    return request(`/zhuishuApi/atoc`, data);
+    return request(`/zhuishuApi/btoc`, data);
 }
 // 书籍章节
 export function getBookChapter(data) {

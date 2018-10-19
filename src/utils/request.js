@@ -23,7 +23,7 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, postData) {
-    const apiBase = process.env.NODE_ENV == 'online' ? '' : '/apis';
+    const apiBase = process.env.NODE_ENV == 'production' ? '' : '/apis';
 
     return fetch(apiBase + url, {
         method: 'POST',

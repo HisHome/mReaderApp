@@ -3,6 +3,8 @@ import createHistory from 'history/createBrowserHistory';
 import './index.html';
 import './index.less';
 import '../node_modules/antd-mobile/dist/antd-mobile.css'; 
+import initReactFastclick from 'react-fastclick';
+initReactFastclick();
 // 1. Initialize
 const app = dva({
     history: createHistory(),
