@@ -76,7 +76,7 @@ class BookContent extends React.Component {
                     className={`bookDrawer ${styles.bookDrawer}`}
                     style={{ minHeight: document.documentElement.clientHeight}}
                     // enableDragHandle
-                    contentStyle={{ color: '#A6A6A6', textAlign: 'center', paddingTop: 42 }}
+                    contentStyle={{}}
                     sidebar={sidebar}
                     open={this.state.open}
                     onOpenChange={this.onOpenChange}
