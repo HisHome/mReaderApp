@@ -17,6 +17,7 @@ class BookContent extends React.Component {
             minor: '',
             isShowOther: false,
             open: false,
+            currentNum: 0,
 		};
     }
     componentDidMount = () => {
@@ -58,7 +59,23 @@ class BookContent extends React.Component {
     }
     onOpenChange = () => {
         this.setState({ open: !this.state.open });
-      }
+    }
+    clickChapter=(index)=>{
+        console.log(index);
+        this.setState({currentNum: index},()=>{
+            this.getNewContent()
+        })
+    }
+    getNewContent=()=>{
+        this.props.dispatch({
+            type: 'bookContent/bookContent',
+            payload: {
+                chapterLink: this.props.bookCapterList[this.state.currentNum].link,
+            }
+        }).then(()=>{
+            this.setState({ open: false });
+        })
+    }
     componentWillReceiveProps=(nextprops)=>{
     }
     render=()=>{
@@ -66,7 +83,7 @@ class BookContent extends React.Component {
         const sidebar = (<div>
             <p className={styles.chapterTitle}>目录</p>
             {bookCapterList && bookCapterList.map((item, index) => {
-              return (<p className={styles.chapterName} key={index} >{index + 1}-{item.title}</p>);
+              return (<p onClick={()=>{this.clickChapter(index)}} className={styles.chapterName} key={index} >{index + 1}-{item.title}</p>);
             })}
           </div>);
         const myImg = src => <img src={`https://gw.alipayobjects.com/zos/rmsportal/${src}.svg`} className="am-icon am-icon-xs" alt="" />;

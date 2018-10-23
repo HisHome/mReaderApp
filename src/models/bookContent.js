@@ -27,25 +27,22 @@ export default {
     effects: {
         *getBookSource({ payload }, { call, put }) {  // eslint-disable-line
             const data = yield call(zhui.getBookSource, payload);
-            console.log('=====1111====');
-            console.log(data);
-            
             yield put({ type: 'bookSource', data: data.data || {} });
             const data2 = yield call(zhui.getBookChapter, {sourceId: data.data[0]._id, view: 'chapters'});
             yield put({ type: 'bookCapterList', data: data2.data.chapters || [] });
-            console.log('=====2222====');
-            console.log(data2);
-            const data3 = yield call(zhui.getBookChapterContent, {chapterLink: data2.data.chapters[0].link});
-            console.log('=====3333====');
-            console.log(data3);
-            yield put({ type: 'bookContent', data: data3.data || {} });
+            yield put({ type: 'bookContent', payload: {chapterLink: data2.data.chapters[0].link} });
         },
+        *bookContent({ payload }, { call, put }) {  // eslint-disable-line
+            const data = yield call(zhui.getBookChapterContent, payload);
+            yield put({ type: 'upDateBookContent', data: data.data || {} });
+        },
+
     },
     reducers: {
         bookSource(state, {data}) {
             return { ...state, bookSource: data };
         },
-        bookContent(state, {data}) {
+        upDateBookContent(state, {data}) {
             return { ...state, bookContent: data };
         },
         bookCapterList(state, {data}) {
