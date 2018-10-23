@@ -5,7 +5,8 @@ export default {
     namespace: 'bookContent',
     state: {
         bookSource: {},
-        bookContent: {}
+        bookContent: {},
+        bookCapterList: [],
     },
     subscriptions: {
         setup({ dispatch, history }) {  // eslint-disable-line
@@ -31,6 +32,7 @@ export default {
             
             yield put({ type: 'bookSource', data: data.data || {} });
             const data2 = yield call(zhui.getBookChapter, {sourceId: data.data[0]._id, view: 'chapters'});
+            yield put({ type: 'bookCapterList', data: data2.data.chapters || [] });
             console.log('=====2222====');
             console.log(data2);
             const data3 = yield call(zhui.getBookChapterContent, {chapterLink: data2.data.chapters[0].link});
@@ -45,6 +47,9 @@ export default {
         },
         bookContent(state, {data}) {
             return { ...state, bookContent: data };
+        },
+        bookCapterList(state, {data}) {
+            return { ...state, bookCapterList: data };
         },
     },
 };
