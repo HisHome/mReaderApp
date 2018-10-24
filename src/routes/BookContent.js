@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link ,routerRedux } from 'dva/router';
 
-import { NavBar, Tabs, Progress, Button,  Flex, Icon, InputItem, Popover, SegmentedControl, Drawer, List} from 'antd-mobile';
+import { NavBar, Tabs, Progress, Button,  Flex, Icon, InputItem, Popover, SegmentedControl, Drawer, PullToRefresh} from 'antd-mobile';
 import styles from './BookContent.less';
 import util from '../utils/util';
 import { array } from 'prop-types';
@@ -17,66 +17,84 @@ class BookContent extends React.Component {
             minor: '',
             isShowOther: false,
             open: false,
-            currentNum: 0,
+            startNum: 0,
+            endNum: 0,
+
+            height: document.documentElement.clientHeight,
+            down: true,
+            refreshing: false,
+            bookContentList: []
 		};
     }
     componentDidMount = () => {
         var target = document.getElementById("bookContentBox");
+        let _this = this;
         window.touch.on(target, 'swipeleft', function(ev){
             console.log("向左滑动.");
         });
         window.touch.on(target, 'swipeup', function(ev){
             console.log("向up滑动.");
+            console.log("11111");
+            _this.changeType(false)
+
+        });
+        window.touch.on(target, 'swipedown', function(ev){
+            console.log("向swipedown滑动.");
+            console.log("2222");
+            _this.changeType(true)
         });
         window.touch.on(target, 'hold', function(ev){
             console.log("hold----");
         });
         window.touch.on(target, 'tap', (ev)=>{
+            console.log("tap----");
             this.setState({
                 isShowOther: !this.state.isShowOther
             })
         });
+        // const hei = this.state.height - ReactDOM.findDOMNode(this.root).offsetTop;
+        // setTimeout(() => this.setState({
+        //     height: hei,
+        // }), 0);
+        if (this.props.bookContent){
+            let arr = []
+            arr.push(this.props.bookContent)
+            this.setState({bookContentList: arr})
+        }
     }
-    click = () => {
-        this.props.dispatch({
-            type: 'products/getBookType',
-            payload: {}
-        })
-    }
-    changeSearch=(data)=>{
+    changeType=(bool)=>{
         this.setState({
-            ...data
-        },()=>{
-            this.props.dispatch({
-                type: 'bookTypeInfo/getBookTypeInfo',
-                payload: {
-                    ...util.getQuery(),
-                    type: this.state.type,
-                    minor: this.state.minor
-                }
-            })
+            down: bool
         })
     }
     onOpenChange = () => {
         this.setState({ open: !this.state.open });
     }
     clickChapter=(index)=>{
-        console.log(index);
-        this.setState({currentNum: index},()=>{
+        this.setState({startNum: index, endNum: index, bookContentList: []},()=>{
             this.getNewContent()
         })
     }
-    getNewContent=()=>{
+    getNewContent=(isDown)=>{
         this.props.dispatch({
             type: 'bookContent/bookContent',
             payload: {
-                chapterLink: this.props.bookCapterList[this.state.currentNum].link,
+                chapterLink: this.props.bookCapterList[ isDown ? this.state.startNum : this.state.endNum ].link,
             }
         }).then(()=>{
-            this.setState({ open: false });
+            this.setState({ open: false,refreshing: false });
         })
     }
     componentWillReceiveProps=(nextprops)=>{
+        if (nextprops.bookContent){
+            let arr = this.state.bookContentList
+            if (this.state.down){
+                arr.unshift(nextprops.bookContent)
+            } else {
+                arr.push(nextprops.bookContent)
+            }
+            this.setState({bookContentList: arr})
+        }
     }
     render=()=>{
         const { bookContent, bookCapterList } = this.props;
@@ -97,7 +115,8 @@ class BookContent extends React.Component {
                     sidebar={sidebar}
                     open={this.state.open}
                     onOpenChange={this.onOpenChange}
-                >
+                >   
+                    
                     {this.state.isShowOther
                         ?   <div className={styles.bookNavBar}>
                                 <NavBar
@@ -109,7 +128,7 @@ class BookContent extends React.Component {
                                     <Icon type="left" />
                                 </Link>}
                                 onLeftClick={() => console.log('onLeftClick')}
-                                rightContent={[
+                                rightContent={
                                     <Popover 
                                         overlayClassName="fortest"
                                         overlayStyle={{ color: 'currentColor' }}
@@ -133,19 +152,58 @@ class BookContent extends React.Component {
                                     >
                                         <Icon key="1" type="ellipsis" />
                                     </Popover>
-                                ]}
+                                }
                                 >{bookContent.chapter ? bookContent.chapter.title : ''}</NavBar>
                             </div>
                         : ""
                     }
-                    <div id="bookContentBox" className={styles.bookContentBox}>
-                        <h3 className={styles.bookChapterName}>{bookContent.chapter ? bookContent.chapter.title : ''}</h3>
-                        <div>
-                            {util.initContent(bookContent.chapter ? bookContent.chapter.cpContent : '').map((item,index)=>{
-                                return <p className={styles.bookSection} key={index}>{ item ? item.replace(/\s/g,'') : ''}</p>
-                            })}
-                        </div>
-                    </div>
+                    <div id="bookContentBox" >
+                        <PullToRefresh
+                            damping={60}
+                            ref={el => this.ptr = el}
+                            style={{
+                                height: this.state.height,
+                                overflow: 'auto',
+                            }}
+                            indicator={this.state.down ? {} : { deactivate: '上拉可以刷新' }}
+                            direction={this.state.down ? 'down' : 'up'}
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => {
+                                let obj = {
+                                    refreshing: true,
+                                }
+                                if (this.state.down){
+                                    if (this.state.startNum > 0){
+                                        obj.startNum = this.state.startNum - 1;
+                                    } else {
+                                        return;
+                                    }
+                                } else {
+                                    if (this.state.endNum < this.props.bookCapterList.length -1){
+                                        obj.endNum = this.state.endNum + 1;
+                                    } else {
+                                        return;
+                                    }
+                                }
+                                this.setState({ ...obj },()=>{
+                                    this.getNewContent(this.state.down)
+                                });
+                            }}
+                        >       
+                            <div className={styles.bookContentBox}>
+                                {this.state.bookContentList.map((item,index)=>{
+                                   return <div key={index}>
+                                        <h3 className={styles.bookChapterName}>{item.chapter ? item.chapter.title : ''}</h3>
+                                        <div>
+                                            {util.initContent(item.chapter ? item.chapter.cpContent : '').map((item,index)=>{
+                                                return <p className={styles.bookSection} key={index}>{ item ? item.replace(/\s/g,'') : ''}</p>
+                                            })}
+                                        </div>
+                                    </div>
+                                })}
+                            </div>
+                        </PullToRefresh>
+                     </div>
                     {this.state.isShowOther
                         ?   <div className={styles.bookFooter}>
                                 <div className={styles.bookProgress}>
