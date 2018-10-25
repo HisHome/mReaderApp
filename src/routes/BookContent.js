@@ -231,9 +231,29 @@ class BookContent extends React.Component {
                                     />
                                 </div>
                                 <Flex className={styles.bookJump}>
-                                    <Flex.Item className="center" ><span>上一章</span></Flex.Item>
+                                    <Flex.Item className="center" ><span onClick={()=>{
+                                        let startNum = this.state.startNum
+                                        if (startNum > 0){
+                                            startNum = startNum - 1;
+                                        } else {
+                                            return;
+                                        }
+                                        this.setState({ startNum: startNum  },()=>{
+                                            this.getNewContent(true)
+                                        });
+                                    }}>上一章</span></Flex.Item>
                                     <Flex.Item className="center" ><span onClick={()=>{this.setState({open: true,isShowOther: false})}}>目录</span></Flex.Item>
-                                    <Flex.Item className="center" ><span>下一章</span></Flex.Item>
+                                    <Flex.Item className="center" ><span onClick={()=>{
+                                        let endNum = this.state.endNum
+                                        if (endNum < this.props.bookCapterList.length -1){
+                                            endNum = endNum + 1;
+                                        } else {
+                                            return;
+                                        }
+                                        this.setState({ endNum: endNum  },()=>{
+                                            this.getNewContent(false)
+                                        });
+                                    }}>下一章</span></Flex.Item>
                                 </Flex>
                             </div>
                         : ''
