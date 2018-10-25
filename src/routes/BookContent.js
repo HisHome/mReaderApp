@@ -26,7 +26,8 @@ class BookContent extends React.Component {
             bookContentList: [],
             fontSize: 0.3,
             bgColor: '#eee6dd',
-            fontColor: '#5c5d58'
+            fontColor: '#5c5d58',
+            selectedIndex: 0,
 		};
     }
     componentDidMount = () => {
@@ -219,10 +220,12 @@ class BookContent extends React.Component {
                                         values={['默认', '夜间', '护眼']}
                                         tintColor={'#333'}
                                         style={{ height: '40px', width: '100%' }}
+                                        selectedIndex={this.state.selectedIndex}
                                         onChange={(e)=>{
                                             this.setState({
                                                 bgColor: ['#eee6dd','#333','#b8cd8d'][e.nativeEvent.selectedSegmentIndex],
                                                 fontColor: ['#5c5d58','#ccc','#5c5d58'][e.nativeEvent.selectedSegmentIndex],
+                                                selectedIndex: e.nativeEvent.selectedSegmentIndex,
                                             })
                                         }}
                                     />
