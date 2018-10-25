@@ -23,7 +23,10 @@ class BookContent extends React.Component {
             height: document.documentElement.clientHeight,
             down: true,
             refreshing: false,
-            bookContentList: []
+            bookContentList: [],
+            fontSize: 0.3,
+            bgColor: '#eee6dd',
+            fontColor: '#5c5d58'
 		};
     }
     componentDidMount = () => {
@@ -190,7 +193,7 @@ class BookContent extends React.Component {
                                 });
                             }}
                         >       
-                            <div className={styles.bookContentBox}>
+                            <div className={styles.bookContentBox} style={{fontSize: `${this.state.fontSize}rem`, background: this.state.bgColor, color: this.state.fontColor}}>
                                 {this.state.bookContentList.map((item,index)=>{
                                    return <div key={index}>
                                         <h3 className={styles.bookChapterName}>{item.chapter ? item.chapter.title : ''}</h3>
@@ -207,15 +210,21 @@ class BookContent extends React.Component {
                     {this.state.isShowOther
                         ?   <div className={styles.bookFooter}>
                                 <div className={styles.bookProgress}>
-                                    <span className={styles.bookFontSizeLeft}>Aa- </span>
-                                    <Progress percent={40} position="normal" unfilled={true} appearTransition />
-                                    <span className={styles.bookFontSizeRight}>Aa+ </span>
+                                    <span className={styles.bookFontSizeLeft} onClick={()=>{ if (this.state.fontSize <= 0.2) return; this.setState({fontSize: this.state.fontSize - 0.02}) }}>Aa- </span>
+                                    <Progress percent={parseInt((this.state.fontSize - 0.2)/0.26*100)} position="normal" unfilled={true} appearTransition />
+                                    <span className={styles.bookFontSizeRight} onClick={()=>{ if (this.state.fontSize >= 0.46) return; this.setState({fontSize: this.state.fontSize + 0.02}) }}>Aa+ </span>
                                 </div>
                                 <div className={styles.bookReadType}>
                                     <SegmentedControl
                                         values={['默认', '夜间', '护眼']}
                                         tintColor={'#333'}
                                         style={{ height: '40px', width: '100%' }}
+                                        onChange={(e)=>{
+                                            this.setState({
+                                                bgColor: ['#eee6dd','#333','#b8cd8d'][e.nativeEvent.selectedSegmentIndex],
+                                                fontColor: ['#5c5d58','#ccc','#5c5d58'][e.nativeEvent.selectedSegmentIndex],
+                                            })
+                                        }}
                                     />
                                 </div>
                                 <Flex className={styles.bookJump}>
