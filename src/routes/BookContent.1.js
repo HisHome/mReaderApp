@@ -28,7 +28,6 @@ class BookContent extends React.Component {
             bgColor: '#eee6dd',
             fontColor: '#5c5d58',
             selectedIndex: 0,
-            opacity: 0,
 		};
     }
     componentDidMount = () => {
@@ -54,11 +53,7 @@ class BookContent extends React.Component {
         window.touch.on(target, 'tap', (ev)=>{
             console.log("tap----");
             this.setState({
-                isShowOther: !this.state.isShowOther,
-            },()=>{
-                this.setState({
-                    opacity: this.state.isShowOther ? 1 : 0
-                }) 
+                isShowOther: !this.state.isShowOther
             })
         });
         // const hei = this.state.height - ReactDOM.findDOMNode(this.root).offsetTop;
@@ -127,7 +122,7 @@ class BookContent extends React.Component {
                 >   
                     
                     {this.state.isShowOther
-                        ?   <div className={styles.bookNavBar} style={{opacity: this.state.opacity}} >
+                        ?   <div className={styles.bookNavBar}>
                                 <NavBar
                                 mode="light"
                                 icon={<Link to={{
@@ -214,7 +209,7 @@ class BookContent extends React.Component {
                         </PullToRefresh>
                      </div>
                     {this.state.isShowOther
-                        ?   <div className={styles.bookFooter} style={{opacity: this.state.opacity}} >
+                        ?   <div className={styles.bookFooter}>
                                 <div className={styles.bookProgress}>
                                     <span className={styles.bookFontSizeLeft} onClick={()=>{ if (this.state.fontSize <= 0.2) return; this.setState({fontSize: this.state.fontSize - 0.02}) }}>Aa- </span>
                                     <Progress percent={parseInt((this.state.fontSize - 0.2)/0.26*100)} position="normal" unfilled={true} appearTransition />
