@@ -44,8 +44,6 @@ class BookContent extends React.Component {
 
         });
         window.touch.on(target, 'swipedown', function(ev){
-            console.log("向swipedown滑动.");
-            console.log("2222");
             _this.changeType(true)
         });
         window.touch.on(target, 'hold', function(ev){
