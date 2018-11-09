@@ -41,3 +41,11 @@ export function getBookChapter(data) {
 export function getBookChapterContent(data) {
     return request(`/zhuishuChapter/chapter/${data.chapterLink}`, data);
 }
+// 排名分类
+export function rankingGender(data) {
+    return request(`/zhuishuApi/ranking/gender`, data);
+}
+// 排名详情
+export function getBookRankInfo(data) {
+    return request(`/zhuishuApi/ranking/${data.id}`, data);
+}

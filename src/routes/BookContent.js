@@ -63,7 +63,7 @@ class BookContent extends React.Component {
         // setTimeout(() => this.setState({
         //     height: hei,
         // }), 0);
-        if (this.props.bookContent){
+        if (this.props.bookContent && this.props.bookContent.chapter){
             let arr = []
             arr.push(this.props.bookContent)
             this.setState({bookContentList: arr})
@@ -93,7 +93,7 @@ class BookContent extends React.Component {
         })
     }
     componentWillReceiveProps=(nextprops)=>{
-        if (nextprops.bookContent){
+        if (nextprops.bookContent && nextprops.bookContent.chapter){
             let arr = this.state.bookContentList
             if (this.state.down){
                 arr.unshift(nextprops.bookContent)
@@ -102,6 +102,12 @@ class BookContent extends React.Component {
             }
             this.setState({bookContentList: arr})
         }
+    }
+    componentWillUnmount=()=>{
+        this.props.dispatch({
+            type: 'bookContent/upDateBookContent',
+            data: {}
+        })
     }
     render=()=>{
         const { bookContent, bookCapterList } = this.props;
@@ -123,7 +129,6 @@ class BookContent extends React.Component {
                     open={this.state.open}
                     onOpenChange={this.onOpenChange}
                 >   
-                    
                     {this.state.isShowOther
                         ?   <div className={styles.bookNavBar} style={{opacity: this.state.opacity}} >
                                 <NavBar
@@ -164,7 +169,7 @@ class BookContent extends React.Component {
                             </div>
                         : ""
                     }
-                    <div id="bookContentBox" >
+                    <div id="bookContentBox" style={{background: this.state.bgColor}}>
                         <PullToRefresh
                             damping={60}
                             ref={el => this.ptr = el}
@@ -197,17 +202,22 @@ class BookContent extends React.Component {
                                 });
                             }}
                         >       
-                            <div className={styles.bookContentBox} style={{fontSize: `${this.state.fontSize}rem`, background: this.state.bgColor, color: this.state.fontColor}}>
-                                {this.state.bookContentList.map((item,index)=>{
-                                   return <div key={index}>
-                                        <h3 className={styles.bookChapterName}>{item.chapter ? item.chapter.title : ''}</h3>
-                                        <div>
-                                            {util.initContent(item.chapter ? item.chapter.cpContent : '').map((item,index)=>{
-                                                return <p className={styles.bookSection} key={index}>{ item ? item.replace(/\s/g,'') : ''}</p>
-                                            })}
-                                        </div>
+                            <div className={styles.bookContentBox} style={{fontSize: `${this.state.fontSize}rem`,color: this.state.fontColor}}>
+                                {this.state.bookContentList && this.state.bookContentList.length
+                                    ?   this.state.bookContentList.map((item,index)=>{
+                                            return <div key={index}>
+                                                <h3 className={styles.bookChapterName}>{item.chapter ? item.chapter.title : ''}</h3>
+                                                <div>
+                                                    {util.initContent(item.chapter ? item.chapter.cpContent : '').map((item,index)=>{
+                                                        return <p className={styles.bookSection} key={index}>{ item ? item.replace(/\s/g,'') : ''}</p>
+                                                    })}
+                                                </div>
+                                            </div>
+                                        })
+                                    :   <div style={{textAlign: 'center', padding: '2rem 0'}}>
+                                        <Icon type="loading" size="lg" /> <br /> <span style={{fontSize: '0.28rem'}}>数据加载中...</span>
                                     </div>
-                                })}
+                                }
                             </div>
                         </PullToRefresh>
                      </div>

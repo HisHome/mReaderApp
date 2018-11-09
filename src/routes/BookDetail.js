@@ -25,25 +25,10 @@ class BookDetail extends React.Component {
             payload: {}
         })
     }
-    changeSearch=(data)=>{
-        this.setState({
-            ...data
-        },()=>{
-            this.props.dispatch({
-                type: 'bookTypeInfo/getBookTypeInfo',
-                payload: {
-                    ...util.getQuery(),
-                    type: this.state.type,
-                    minor: this.state.minor
-                }
-            })
-        })
-    }
     componentWillReceiveProps=(nextprops)=>{
     }
     render=()=>{
         const { bookDetail, bookReview } = this.props;
-        console.log(bookReview)
         return (
             <div>
                 <div className={`overflow ${styles.bookBack}`}>

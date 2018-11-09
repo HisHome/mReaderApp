@@ -38,37 +38,49 @@ class IndexPage extends React.Component {
                 <div className={styles.basicBg}>
                     <Flex>
                         <Flex.Item className={styles.indexFemale} onClick={()=>{this.changeBookType('female')}}>
-                            {bookTypeList.female ? '女 生' : 'ee'}
+                            {bookTypeList.female ? '女 生' : '女 生'}
                         </Flex.Item>
                         <Flex.Item className={styles.indexMale} onClick={()=>{this.changeBookType('male')}}>
-                            {bookTypeList.male ? '男 生' : 'ee'}
+                            {bookTypeList.male ? '男 生' : '男 生'}
                         </Flex.Item>
                         <Flex.Item className={styles.indexPicture} onClick={()=>{this.changeBookType('picture')}}>
-                            {bookTypeList.picture ? '漫 画' : 'ee'}
+                            {bookTypeList.picture ? '漫 画' : '漫 画'}
                         </Flex.Item>
                         <Flex.Item className={styles.indexPress} onClick={()=>{this.changeBookType('press')}}>
-                            {bookTypeList.press ? '出 版' : 'ee'}
+                            {bookTypeList.press ? '出 版' : '出 版'}
+                        </Flex.Item>
+                        <Flex.Item className={styles.indexPress} >
+                            <Link to={{ pathname: "/bookRanking"}}>
+                                <div style={{overflow: 'hidden',color: '#fff',position: 'relative'}}>
+                                    排行
+                                </div>
+                            </Link>
                         </Flex.Item>
                     </Flex>
                 </div>
-                <div  style={{marginTop: 10,overflow: 'hidden',padding:'0 5px'}}>
-                    {bookTypeList && bookTypeList[this.state.bookType] && bookTypeList[this.state.bookType].map((item, index)=>{
-                            return <div className={styles.bookTypeBox} key={index}>
-                                <Link to={{ pathname: "/bookTypeInfo",search: util.initQuery({gender: this.state.bookType, major: item.name})}}>
-                                    <div style={{background: '#fff',overflow: 'hidden',padding: 10,position: 'relative'}}>
-                                        <div className={styles.bookTypeBoxName}>
-                                            <h3 >{item.name}</h3>
-                                            <p >共{item.bookCount}本</p>
-                                        </div>
-                                        <div style={{height: 240,overflow: 'hidden'}}>
-                                            <img width="100%" src={'http://statics.zhuishushenqi.com'+item.bookCover[0]} alt=""/>
-                                        </div>
+                {bookTypeList && bookTypeList[this.state.bookType] && bookTypeList[this.state.bookType].length   
+                    ?   <div  style={{marginTop: 10,overflow: 'hidden',padding:'0 5px'}}>
+                            {bookTypeList[this.state.bookType].map((item, index)=>{
+                                    return <div className={styles.bookTypeBox} key={index}>
+                                        <Link to={{ pathname: "/bookTypeInfo",search: util.initQuery({gender: this.state.bookType, major: item.name})}}>
+                                            <div style={{background: '#fff',overflow: 'hidden',padding: 10,position: 'relative'}}>
+                                                <div className={styles.bookTypeBoxName}>
+                                                    <h3 >{item.name}</h3>
+                                                    <p >共{item.bookCount}本</p>
+                                                </div>
+                                                <div style={{height: 240,overflow: 'hidden'}}>
+                                                    <img width="100%" src={'http://statics.zhuishushenqi.com'+item.bookCover[0]} alt=""/>
+                                                </div>
+                                            </div>
+                                        </Link>
                                     </div>
-                                </Link>
-                            </div>
-                       })
-                    }
-                </div>
+                            })
+                            }
+                        </div>
+                    :   <div style={{textAlign: 'center', padding: '2rem 0'}}>
+                            <Icon type="loading" size="lg" /> <br /> <span style={{fontSize: '0.28rem'}}>数据加载中...</span>
+                        </div>
+                }
             </div>
         );
     }
