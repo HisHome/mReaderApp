@@ -19,8 +19,9 @@ export default {
     effects: {
         *getBookRanking({ payload }, { call, put }) { 
             yield put({ type: 'updateBookRankInfo', data: {} });
-            if (!payload || !payload.id) return;
+            // if (!payload || !payload.id) return;
             const data = yield call(zhui.getBookRankInfo, payload);
+            console.log(data);
             yield put({ type: 'updateBookRankInfo', data: data.data || {} });
         },
     },

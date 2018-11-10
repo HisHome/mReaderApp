@@ -135,7 +135,7 @@ class BookContent extends React.Component {
                                 mode="light"
                                 icon={<Link to={{
                                     pathname:'/bookDetail',
-                                    search: util.initQuery({book: util.getQuery().book})
+                                    search: util.initQuery({book: util.getQuery().book,sourceId: util.getQuery().sourceId, id: util.getQuery().id})
                                 }}>
                                     <Icon type="left" />
                                 </Link>}

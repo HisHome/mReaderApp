@@ -62,9 +62,15 @@ class BookRanking extends React.Component {
         return (
             <div>
                 <div className={styles.rankingBox}>
-                    <Link to={{ pathname: "/"}}>
-                            <Icon style={{padding:'0.2rem .2rem'}} type={'left'} />
-                    </Link>
+                    <NavBar
+                        mode="light"
+                        icon={ <Link to={{
+                                pathname:'/'
+                            }}>
+                            <Icon type="left" />
+                        </Link> }
+                        rightContent={null}
+                        >排行榜</NavBar>
                     { bookRanking && bookRanking.male
                         ?   <div>
                                 <div className={styles.rankType}>男生</div>

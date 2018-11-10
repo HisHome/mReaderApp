@@ -49,6 +49,14 @@ const util = {
           
         }
         return arr
+    },
+    getDetailBackUrl:function(val){
+        if (!val) return;
+        return [
+            '',
+            '/bookTypeInfo',
+            '/bookRankInfo'
+        ][val]
     }
 }
 

@@ -70,7 +70,7 @@ class BookTypeInfo extends React.Component {
                                 return <div className={styles.booksInfoBox} key={index}>
                                     <Link to={{
                                         pathname:'/bookDetail',
-                                        search: util.initQuery({book: item._id})
+                                        search: util.initQuery({book: item._id, sourceId: 1})
                                     }}>
                                         <div className={styles.booksImg}>
                                             <img width="100%" src={'http://statics.zhuishushenqi.com'+item.cover} alt=""/>

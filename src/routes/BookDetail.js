@@ -27,14 +27,30 @@ class BookDetail extends React.Component {
     }
     componentWillReceiveProps=(nextprops)=>{
     }
+    initObjData=()=>{
+       let num = util.getQuery().sourceId
+       let bookDetail = this.props.bookDetail;
+       let obj = {}
+       if (num == 1){
+            obj = {
+                gender: bookDetail.gender ? bookDetail.gender[0] : '',
+                major: bookDetail.majorCate
+            }
+       } else if (num ==2) {
+            obj = {
+                id: util.getQuery().id
+            }
+       }
+       return obj;
+    }
     render=()=>{
         const { bookDetail, bookReview } = this.props;
         return (
             <div>
                 <div className={`overflow ${styles.bookBack}`}>
                     <Link to={{
-                        pathname:'/bookTypeInfo',
-                        search: util.initQuery({gender: bookDetail.gender ? bookDetail.gender[0] : '',major: bookDetail.majorCate})
+                        pathname: util.getDetailBackUrl(util.getQuery().sourceId),
+                        search: util.initQuery(this.initObjData())
                     }}>
                         <Icon type="left" />
                     </Link>
@@ -51,7 +67,7 @@ class BookDetail extends React.Component {
                         <Button className={styles.bookBtn} size="small" >&nbsp;加入书架&nbsp;</Button> &nbsp; &nbsp;
                         <Link to={{
                             pathname:'/bookContent',
-                            search: util.initQuery({book: bookDetail._id})
+                            search: util.initQuery({book: bookDetail._id, id: util.getQuery().id, sourceId: util.getQuery().sourceId})
                         }}>
                             <Button className={styles.bookBtn} size="small" type="warning">&nbsp;开始阅读&nbsp;</Button>
                         </Link>
