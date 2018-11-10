@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link ,routerRedux } from 'dva/router';
 import ProductList from '../components/ProductList';
-import { NavBar, Tabs, TabBar, SearchBar,  Flex, Icon, InputItem, SegmentedControl} from 'antd-mobile';
+import { NavBar, Tabs, TabBar, SearchBar,  Flex, Icon, InputItem, Toast} from 'antd-mobile';
 import styles from './Index.css';
 import util from '../utils/util.js'
 
@@ -10,7 +10,7 @@ class IndexPage extends React.Component {
     constructor(props){
         super(props);
 		this.state = {
-            bookType: 'female'
+            bookType: 'female',
 		};
     }
     componentDidMount = () => {
@@ -26,6 +26,16 @@ class IndexPage extends React.Component {
             bookType: type
         })
     }
+    submitData=(val)=>{
+        if (!val){
+            Toast.info('还未输入搜索内容');
+            return
+        };
+        this.props.dispatch(routerRedux.push({
+            pathname: '/search',
+            search: util.initQuery({query: val})
+        }))
+    }
     componentWillReceiveProps=(nextprops)=>{
     }
     render=()=>{
@@ -33,7 +43,7 @@ class IndexPage extends React.Component {
         return (
             <div>
                 <div className="basic_bg">
-                    <SearchBar placeholder="书名、作者" maxLength={20} />
+                    <SearchBar placeholder="书名、作者" defaultValue='' maxLength={20} onSubmit={this.submitData} />
                 </div>
                 <div className={styles.basicBg}>
                     <Flex>

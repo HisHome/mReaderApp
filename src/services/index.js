@@ -49,3 +49,7 @@ export function rankingGender(data) {
 export function getBookRankInfo(data) {
     return request(`/zhuishuApi/ranking/${data.id}`, data);
 }
+// 搜索书籍
+export function getSearchBook(data) {
+    return request(`/zhuishuApi/book/fuzzy-search`, data);
+}

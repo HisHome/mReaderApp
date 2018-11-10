@@ -36,6 +36,11 @@ function RouterConfig({ history, app }) {
 		models: () => [import('./models/bookRankInfo')],
 		component: () => import('./routes/BookRankInfo'),
     });
+    const Search = dynamic({
+		app,
+		models: () => [import('./models/search')],
+		component: () => import('./routes/Search'),
+    });
   return (
     <Router history={history}>
       <Switch>
@@ -45,6 +50,7 @@ function RouterConfig({ history, app }) {
         <Route path="/bookContent" exact component={BookContent} />
         <Route path="/bookRanking" exact component={BookRanking} />
         <Route path="/bookRankInfo" exact component={BookRankInfo} />
+        <Route path="/search" exact component={Search} />
       </Switch>
     </Router>
   );

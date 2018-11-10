@@ -51,9 +51,9 @@ const util = {
         return arr
     },
     getDetailBackUrl:function(val){
-        if (!val) return;
+        if (!val) val = 0;
         return [
-            '',
+            '/',
             '/bookTypeInfo',
             '/bookRankInfo'
         ][val]
